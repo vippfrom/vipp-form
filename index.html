@@ -60,6 +60,13 @@
                 { label: "Work Email Address", id: "email", type: "email" },
                 { label: "Mobile Telephone Number", id: "phone", type: "tel" }
             ] },
+            { id: 4, question: "What is your day-to-day job role and responsibility?", type: "textarea", onAnswer: (answer) => { responses[4] = answer; } },
+            { id: 5, question: "Are you accountable for meeting net-zero targets, policies, and objectives for your organisation?", type: "button", options: ["Yes, I am.", "No, I am not."] },
+            { id: 6, question: "What is your role in your organisation's decision-making process?", type: "button", options: ["I am the decision maker.", "I am part of the decision-making process.", "I don’t make any decisions."] },
+            { id: 7, question: "Do you manage a budget or influence procurement decisions?", type: "button", options: ["Yes, I manage a budget.", "I influence procurement decisions.", "No, I don’t manage a budget."] },
+            { id: 8, question: "Could you please specify the number of buildings, assets, or fleet vehicles under your management within your portfolio?", type: "textarea" },
+            { id: 9, question: "Do you have any current or future net-zero projects planned within the next 0-24 months that you can share with other Net Zero Club members for mutual learning and knowledge transfer purposes?", type: "textarea" },
+            { id: 10, question: "Are you looking for knowledge or specific details on any products, innovations, or technologies to support your current or future net-zero projects?", type: "textarea" }
         ];
         
         let currentStep = 0;
@@ -104,7 +111,26 @@
                 stepElement.appendChild(table);
                 const nextButton = document.createElement("button");
                 nextButton.textContent = "Next";
-                nextButton.onclick = nextStep;
+                nextButton.onclick = () => {
+                    // Collect input values
+                    step.fields.forEach(field => {
+                        responses[field.id] = document.getElementById(field.id).value;
+                    });
+                    nextStep();
+                };
+                stepElement.appendChild(nextButton);
+            } else if (step.type === "textarea") {
+                const textarea = document.createElement("textarea");
+                textarea.id = `step-${step.id}`;
+                textarea.rows = 4;
+                textarea.style.width = "100%";
+                stepElement.appendChild(textarea);
+                const nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.onclick = () => {
+                    responses[step.id] = document.getElementById(`step-${step.id}`).value;
+                    nextStep();
+                };
                 stepElement.appendChild(nextButton);
             }
             container.appendChild(stepElement);
@@ -114,6 +140,10 @@
             currentStep++;
             if (currentStep < steps.length) {
                 renderStep();
+            } else {
+                // Form submission logic
+                alert("Thank you for applying for VIPP Membership! Your application is being processed.");
+                console.log("Responses:", responses);
             }
         }
 
