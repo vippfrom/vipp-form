@@ -64,10 +64,21 @@
             {
                 id: 2,
                 question: "Are you a public sector employee from any of the following areas?",
-                type: "button",
-                options: ["Yes", "No"],
+                type: "list",
+                options: [
+                    "Local Authorities",
+                    "Central Government Departments & Agencies",
+                    "NHS",
+                    "Universities",
+                    "Colleges & Schools",
+                    "Housing Associations & Social Housing",
+                    "Transport",
+                    "Blue Light Services",
+                    "Councillor",
+                    "Not involve in any of the above" // Added "No" option
+                ],
                 onAnswer: (answer) => {
-                    if (answer === "No") {
+                    if (answer === "Not involve in any of the above") {
                         alert("You are not eligible for VIPP Membership. Redirecting to Content Subscription...");
                         window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form";
                     }
@@ -181,6 +192,23 @@
                         responses[step.id] = option;
                         if (step.onAnswer) step.onAnswer(option);
                         nextStep();
+                    };
+                    stepElement.appendChild(button);
+                });
+            } else if (step.type === "list") {
+                step.options.forEach(option => {
+                    const button = document.createElement("button");
+                    button.textContent = option;
+                    button.onclick = () => {
+                        responses[step.id] = option;
+                        if (step.onAnswer) step.onAnswer(option);
+                        if (option === "No") {
+                            // Redirect to content subscription form
+                            alert("You are not eligible for VIPP Membership. Redirecting to Content Subscription...");
+                            window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form";
+                        } else {
+                            nextStep();
+                        }
                     };
                     stepElement.appendChild(button);
                 });
