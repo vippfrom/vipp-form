@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIPP Membership Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        #vipp-form-container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            padding: 10px 20px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="vipp-form-container"></div>
+
+    <script>
+        const steps = [
+            { id: 1, question: "Are you involved in either a current Net Zero Project or a Future Net Zero Project?", type: "button", options: ["Yes", "No"], onAnswer: (answer) => { if (answer === "No") { alert("You do not qualify for VIPP Membership."); window.location.href = "/content-subscription"; } } },
+            { id: 2, question: "Are you a public sector employee from any of the following areas?", type: "button", options: ["Local Authorities", "NHS", "Universities", "Blue Light Services"], onAnswer: (answer) => { if (!answer) { alert("You do not qualify for VIPP Membership."); window.location.href = "/content-subscription"; } } },
+            { id: 3, question: "Please provide your basic contact details:", type: "fields", fields: [
+                { label: "First Name & Surname", id: "full-name", type: "text" },
+                { label: "Company/Organisation Name", id: "company", type: "text" },
+                { label: "Job Title", id: "job-title", type: "text" },
+                { label: "Work Email Address", id: "email", type: "email" },
+                { label: "Mobile Telephone Number", id: "phone", type: "tel" }
+            ] },
+        ];
+        
+        let currentStep = 0;
+        const responses = {};
+
+        function renderStep() {
+            const container = document.getElementById("vipp-form-container");
+            container.innerHTML = "";
+            const step = steps[currentStep];
+            const stepElement = document.createElement("div");
+            
+            const question = document.createElement("h3");
+            question.textContent = step.question;
+            stepElement.appendChild(question);
+
+            if (step.type === "button") {
+                step.options.forEach(option => {
+                    const button = document.createElement("button");
+                    button.textContent = option;
+                    button.onclick = () => {
+                        responses[step.id] = option;
+                        if (step.onAnswer) step.onAnswer(option);
+                        nextStep();
+                    };
+                    stepElement.appendChild(button);
+                });
+            } else if (step.type === "fields") {
+                const table = document.createElement("table");
+                step.fields.forEach(field => {
+                    const row = document.createElement("tr");
+                    const labelCell = document.createElement("td");
+                    labelCell.textContent = field.label;
+                    const inputCell = document.createElement("td");
+                    const input = document.createElement("input");
+                    input.type = field.type;
+                    input.id = field.id;
+                    inputCell.appendChild(input);
+                    row.appendChild(labelCell);
+                    row.appendChild(inputCell);
+                    table.appendChild(row);
+                });
+                stepElement.appendChild(table);
+                const nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.onclick = nextStep;
+                stepElement.appendChild(nextButton);
+            }
+            container.appendChild(stepElement);
+        }
+
+        function nextStep() {
+            currentStep++;
+            if (currentStep < steps.length) {
+                renderStep();
+            }
+        }
+
+        renderStep();
+    </script>
+</body>
+</html>
