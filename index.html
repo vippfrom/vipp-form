@@ -15,11 +15,15 @@
         #vipp-form-container {
             max-width: 600px;
             margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h3 {
             margin-bottom: 20px;
         }
-        input, textarea, button {
+        input, textarea, button, select {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
@@ -44,57 +48,22 @@
 </head>
 <body>
     <div id="vipp-form-container"></div>
-
     <script>
         const steps = [
-            // Step 1: Net Zero Project Involvement
-            {
-                id: 1,
-                question: "Are you involved in either a current Net Zero Project or a Future Net Zero Project?",
-                type: "button",
-                options: ["Yes", "No"],
-                onAnswer: (answer) => {
-                    if (answer === "No") {
-                        alert("You do not qualify for VIPP Membership. Redirecting to Content Subscription...");
-                        window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form";
-                    }
-                }
+            { id: 1, question: "Are you involved in either a current Net Zero Project or a Future Net Zero Project?", type: "button", options: ["Yes", "No"],
+                onAnswer: (answer) => { if (answer === "No") window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form"; }
             },
-            // Step 2: Public Sector Employee
-            {
-                id: 2,
-                question: "Are you a public sector employee from any of the following areas?",
-                type: "list",
-                options: [
-                    "Local Authorities",
-                    "Central Government Departments & Agencies",
-                    "NHS",
-                    "Universities",
-                    "Colleges & Schools",
-                    "Housing Associations & Social Housing",
-                    "Transport",
-                    "Blue Light Services",
-                    "Councillor",
-                    "Not involve in any of the above" // Added "No" option
-                ],
-                onAnswer: (answer) => {
-                    if (answer === "Not involve in any of the above") {
-                        alert("You are not eligible for VIPP Membership. Redirecting to Content Subscription...");
-                        window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form";
-                    }
-                }
+            { id: 2, question: "Are you a public sector employee from any of the following areas?", type: "list",
+                options: ["Local Authorities", "Central Government Departments & Agencies", "NHS", "Universities", "Colleges & Schools", "Housing Associations & Social Housing", "Transport", "Blue Light Services", "Councillor", "Not involved in any of the above"],
+                onAnswer: (answer) => { if (answer === "Not involved in any of the above") window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form"; }
             },
-            // Step 3: Collect Basic Contact Details
-            {
-                id: 3,
-                question: "Please provide your basic contact details:",
-                type: "fields",
+            { id: 3, question: "Please provide your basic contact details:", type: "fields",
                 fields: [
-                    { label: "First Name & Surname", id: "full-name", type: "text" },
-                    { label: "Company/Organisation Name", id: "company", type: "text" },
-                    { label: "Job Title", id: "job-title", type: "text" },
-                    { label: "Work Email Address", id: "email", type: "email" },
-                    { label: "Mobile Telephone Number", id: "phone", type: "tel" }
+                    { label: "First Name & Surname", id: "full-name", type: "text", placeholder: "John Doe" },
+                    { label: "Company/Organisation Name", id: "company", type: "text", placeholder: "XYZ Council" },
+                    { label: "Job Title", id: "job-title", type: "text", placeholder: "Sustainability Manager" },
+                    { label: "Work Email Address", id: "email", type: "email", placeholder: "example@ac.uk or example@gov.uk" },
+                    { label: "Mobile Telephone Number", id: "phone", type: "tel", placeholder: "07123456789" }
                 ],
                 validate: () => {
                     const email = document.getElementById("email").value;
@@ -110,65 +79,22 @@
                     return true;
                 }
             },
-            // Step 4: Job Function
-            {
-                id: 4,
-                question: "What is your day-to-day job role and responsibility?",
-                type: "textarea",
-                validate: (answer) => answer.trim() !== ""
+           { id: 4, 
+                question: "Portfolio Overview: To help us better understand the scale and scope of your responsibilities, please provide details about the buildings, assets, or fleet vehicles you manage within your portfolio. 🔹 How many buildings do you oversee? 🔹 What types of assets are included in your remit? 🔹 How many fleet vehicles are under your management?", 
+                type: "textarea", 
+                placeholder: "E.g., I oversee 100 buildings (including 75 schools and 25 office buildings) and manage a fleet of 45 vehicles comprising 30 EVs and 15 hybrid vehicles."
             },
-            // Step 5: Accountability for Net-Zero Targets
-            {
-                id: 5,
-                question: "Are you accountable for meeting net-zero targets, policies, and objectives for your organisation?",
-                type: "button",
-                options: ["Yes, I am.", "No, I am not."]
+            { id: 5, 
+                question: "Tell Us About Your Net Zero Projects: Please share details about current or upcoming projects (0-24 months) including: ✅ Project Overview ✅ Technologies & Innovations ✅ Carbon Impact ✅ Collaboration & Partnerships ✅ Challenges & Learnings", 
+                type: "textarea", 
+                placeholder: "E.g., Our £2.4m retrofit project across 15 public buildings integrates solar PV, heat pumps, and smart building controls. Partnering with EnergyCo, we anticipate 380tCO₂/yr savings. Challenges include balancing heritage building requirements with modern energy efficiency measures."
             },
-            // Step 6: Role in Decision-Making
-            {
-                id: 6,
-                question: "What is your role in your organisation's decision-making process?",
-                type: "button",
-                options: ["I am the decision maker.", "I am part of the decision-making process.", "I don’t make any decisions."]
+            { id: 6, 
+                question: "Seeking Information: What insights or specific details would help your projects? 🔹 Solutions you're exploring 🔹 Challenges needing innovation 🔹 Areas for member recommendations", 
+                type: "textarea", 
+                placeholder: "E.g., Seeking case studies on: • Battery storage integration with existing PV systems • EV charging infrastructure for mixed fleets • Retrofit solutions for listed buildings • Funding models for heat network deployment"
             },
-            // Step 7: Managing Budget or Influencing Procurement Decisions
-            {
-                id: 7,
-                question: "Do you manage a budget or influence procurement decisions?",
-                type: "button",
-                options: ["Yes, I manage a budget.", "I influence procurement decisions.", "No, I don’t manage a budget."]
-            },
-            // Step 8: Portfolio Overview
-            {
-                id: 8,
-                question: "Could you please specify the number of buildings, assets, or fleet vehicles under your management within your portfolio?",
-                type: "textarea",
-                validate: (answer) => answer.trim() !== ""
-            },
-            // Step 9: Current or Upcoming Projects
-            {
-                id: 9,
-                question: "Do you have any current or future net-zero projects planned within the next 0-24 months that you can share with other Net Zero Club members for mutual learning and knowledge transfer purposes?",
-                type: "textarea",
-                validate: (answer) => answer.trim() !== ""
-            },
-            // Step 10: Seeking Information
-            {
-                id: 10,
-                question: "Are you looking for knowledge or specific details on any products, innovations, or technologies to support your current or future net-zero projects?",
-                type: "textarea",
-                validate: (answer) => answer.trim() !== ""
-            },
-            // Step 11: Summary and Confirmation
-            {
-                id: 11,
-                question: "Please review your application details:",
-                type: "summary",
-                onConfirm: () => {
-                    alert("Thank you for applying for VIPP Membership! Your application is being processed.");
-                    console.log("Application Details:", responses);
-                }
-            }
+            { id: 7, question: "Please review your application details:", type: "summary" }
         ];
 
         let currentStep = 0;
@@ -179,7 +105,6 @@
             container.innerHTML = "";
             const step = steps[currentStep];
             const stepElement = document.createElement("div");
-
             const question = document.createElement("h3");
             question.textContent = step.question;
             stepElement.appendChild(question);
@@ -196,105 +121,65 @@
                     stepElement.appendChild(button);
                 });
             } else if (step.type === "list") {
-                step.options.forEach(option => {
-                    const button = document.createElement("button");
-                    button.textContent = option;
-                    button.onclick = () => {
-                        responses[step.id] = option;
-                        if (step.onAnswer) step.onAnswer(option);
-                        if (option === "No") {
-                            // Redirect to content subscription form
-                            alert("You are not eligible for VIPP Membership. Redirecting to Content Subscription...");
-                            window.location.href = "https://net-zeroclub.co.uk/join-us#newsletter-form";
-                        } else {
-                            nextStep();
-                        }
-                    };
-                    stepElement.appendChild(button);
-                });
+                const select = document.createElement("select");
+                select.innerHTML = step.options.map(option => `<option value="${option}">${option}</option>`).join("");
+                stepElement.appendChild(select);
+                const nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.onclick = () => {
+                    responses[step.id] = select.value;
+                    if (step.onAnswer) step.onAnswer(select.value);
+                    nextStep();
+                };
+                stepElement.appendChild(nextButton);
             } else if (step.type === "fields") {
-                const table = document.createElement("table");
                 step.fields.forEach(field => {
-                    const row = document.createElement("tr");
-                    const labelCell = document.createElement("td");
-                    labelCell.textContent = field.label;
-                    const inputCell = document.createElement("td");
+                    const label = document.createElement("label");
+                    label.textContent = field.label;
+                    label.htmlFor = field.id;
+                    stepElement.appendChild(label);
                     const input = document.createElement("input");
                     input.type = field.type;
                     input.id = field.id;
-                    input.required = true;
-                    inputCell.appendChild(input);
-                    row.appendChild(labelCell);
-                    row.appendChild(inputCell);
-                    table.appendChild(row);
+                    input.placeholder = field.placeholder;
+                    stepElement.appendChild(input);
                 });
-                stepElement.appendChild(table);
                 const nextButton = document.createElement("button");
                 nextButton.textContent = "Next";
                 nextButton.onclick = () => {
                     if (step.validate && !step.validate()) return;
-                    step.fields.forEach(field => {
-                        responses[field.id] = document.getElementById(field.id).value;
-                    });
+                    step.fields.forEach(field => { responses[field.id] = document.getElementById(field.id).value; });
                     nextStep();
                 };
                 stepElement.appendChild(nextButton);
             } else if (step.type === "textarea") {
                 const textarea = document.createElement("textarea");
                 textarea.id = `step-${step.id}`;
-                textarea.rows = 4;
-                textarea.required = true;
+                textarea.placeholder = step.placeholder;
                 stepElement.appendChild(textarea);
                 const nextButton = document.createElement("button");
                 nextButton.textContent = "Next";
                 nextButton.onclick = () => {
-                    const answer = document.getElementById(`step-${step.id}`).value;
-                    if (step.validate && !step.validate(answer)) return;
-                    responses[step.id] = answer;
+                    responses[step.id] = document.getElementById(`step-${step.id}`).value;
                     nextStep();
                 };
                 stepElement.appendChild(nextButton);
             } else if (step.type === "summary") {
                 const summary = document.createElement("div");
-                summary.innerHTML = `
-                    <p><strong>Name:</strong> ${responses["full-name"]}</p>
-                    <p><strong>Organisation:</strong> ${responses["company"]}</p>
-                    <p><strong>Job Title:</strong> ${responses["job-title"]}</p>
-                    <p><strong>Email Address:</strong> ${responses["email"]}</p>
-                    <p><strong>Mobile Number:</strong> ${responses["phone"]}</p>
-                    <p><strong>Job Function:</strong> ${responses[4]}</p>
-                    <p><strong>Accountability for Net-Zero Targets:</strong> ${responses[5]}</p>
-                    <p><strong>Role in Decision-Making:</strong> ${responses[6]}</p>
-                    <p><strong>Budget/Procurement Role:</strong> ${responses[7]}</p>
-                    <p><strong>Portfolio Overview:</strong> ${responses[8]}</p>
-                    <p><strong>Net Zero Projects:</strong> ${responses[9]}</p>
-                    <p><strong>Seeking Information:</strong> ${responses[10]}</p>
-                `;
+                summary.innerHTML = `<pre>${JSON.stringify(responses, null, 2)}</pre>`;
                 stepElement.appendChild(summary);
-                const confirmButton = document.createElement("button");
-                confirmButton.textContent = "Yes, all details are correct.";
-                confirmButton.onclick = () => {
-                    if (step.onConfirm) step.onConfirm();
+                const submitButton = document.createElement("button");
+                submitButton.textContent = "Submit Application";
+                submitButton.onclick = () => {
+                    alert("Application submitted successfully!");
+                    // Here you can add logic to send the data to a server
                 };
-                stepElement.appendChild(confirmButton);
-                const editButton = document.createElement("button");
-                editButton.textContent = "No, I need to make changes.";
-                editButton.onclick = () => {
-                    currentStep = 0;
-                    renderStep();
-                };
-                stepElement.appendChild(editButton);
+                stepElement.appendChild(submitButton);
             }
             container.appendChild(stepElement);
         }
 
-        function nextStep() {
-            currentStep++;
-            if (currentStep < steps.length) {
-                renderStep();
-            }
-        }
-
+        function nextStep() { if (++currentStep < steps.length) renderStep(); }
         renderStep();
     </script>
 </body>
