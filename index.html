@@ -79,22 +79,52 @@
                     return true;
                 }
             },
-           { id: 4, 
+           // Step 4: Job Function
+            {
+                id: 4,
+                question: "What is your day-to-day job role and responsibility?",
+                type: "textarea", 
+               
+                validate: (answer) => answer.trim() !== ""
+            },
+            // Step 5: Accountability for Net-Zero Targets
+            {
+                id: 5,
+                question: "Are you accountable for meeting net-zero targets, policies, and objectives for your organisation?",
+                type: "button",
+                options: ["Yes, I am.", "No, I am not."]
+            },
+            // Step 6: Role in Decision-Making
+            {
+                id: 6,
+                question: "What is your role in your organisation's decision-making process?",
+                type: "button",
+                options: ["I am the decision maker.", "I am part of the decision-making process.", "I don’t make any decisions."]
+            },
+            // Step 7: Managing Budget or Influencing Procurement Decisions
+            {
+                id: 7,
+                question: "Do you manage a budget or influence procurement decisions?",
+                type: "button",
+                options: ["Yes, I manage a budget.", "I influence procurement decisions.", "No, I don’t manage a budget."]
+            },
+
+           { id: 8, 
                 question: "Portfolio Overview: To help us better understand the scale and scope of your responsibilities, please provide details about the buildings, assets, or fleet vehicles you manage within your portfolio. 🔹 How many buildings do you oversee? 🔹 What types of assets are included in your remit? 🔹 How many fleet vehicles are under your management?", 
                 type: "textarea", 
                 placeholder: "E.g., I oversee 100 buildings (including 75 schools and 25 office buildings) and manage a fleet of 45 vehicles comprising 30 EVs and 15 hybrid vehicles."
             },
-            { id: 5, 
+            { id: 9, 
                 question: "Tell Us About Your Net Zero Projects: Please share details about current or upcoming projects (0-24 months) including: ✅ Project Overview ✅ Technologies & Innovations ✅ Carbon Impact ✅ Collaboration & Partnerships ✅ Challenges & Learnings", 
                 type: "textarea", 
                 placeholder: "E.g., Our £2.4m retrofit project across 15 public buildings integrates solar PV, heat pumps, and smart building controls. Partnering with EnergyCo, we anticipate 380tCO₂/yr savings. Challenges include balancing heritage building requirements with modern energy efficiency measures."
             },
-            { id: 6, 
+            { id: 10, 
                 question: "Seeking Information: What insights or specific details would help your projects? 🔹 Solutions you're exploring 🔹 Challenges needing innovation 🔹 Areas for member recommendations", 
                 type: "textarea", 
                 placeholder: "E.g., Seeking case studies on: • Battery storage integration with existing PV systems • EV charging infrastructure for mixed fleets • Retrofit solutions for listed buildings • Funding models for heat network deployment"
             },
-            { id: 7, question: "Please review your application details:", type: "summary" }
+            { id: 11, question: "Please review your application details:", type: "summary" }
         ];
 
         let currentStep = 0;
