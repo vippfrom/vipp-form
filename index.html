@@ -92,7 +92,7 @@
                 validate: () => {
                     const email = document.getElementById("email").value;
                     const phone = document.getElementById("phone").value;
-                    if (!email.endsWith(".gov.uk") && !email.endsWith(".ac.uk")) {
+                    if (!email.endsWith(".gov.uk") && !email.endsWith(".ac.uk") && !email.endsWith(".org.uk")) {
                         alert("Please provide a valid public sector email address.");
                         return false;
                     }
